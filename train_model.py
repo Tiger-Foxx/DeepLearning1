@@ -1,45 +1,58 @@
+import mlflow
+import mlflow.tensorflow  # ou mlflow.keras (les deux fonctionnent)
 import tensorflow as tf
-import keras
-import numpy as np
+from mlflow.models.signature import infer_signature
 
-# 1. Chargement du jeu de données MNIST
-(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
+# Variables pour les paramètres
+EPOCHS = 5
+BATCH_SIZE = 128
+DROPOUT_RATE = 0.2
 
-# 2. Normalisation des données (valeurs entre 0 et 1)
+# Chargement des données MNIST
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
 x_train = x_train.astype("float32") / 255.0
 x_test = x_test.astype("float32") / 255.0
 
-# 3. Redimensionnement des images (28x28 → 784)
-x_train = x_train.reshape(60000, 784)
-x_test = x_test.reshape(10000, 784)
-
-# 4. Construction du modèle fully connected
-model = keras.Sequential([
-    keras.layers.Dense(512, activation='relu', input_shape=(784,)),
-    keras.layers.Dropout(0.2),
-    keras.layers.Dense(10, activation='softmax')
+# Construction du modèle (utilisation d'Input pour éviter le warning)
+model = tf.keras.Sequential([
+    tf.keras.Input(shape=(28, 28)),     # plus propre que passer input_shape à Flatten
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(128, activation="relu"),
+    tf.keras.layers.Dropout(DROPOUT_RATE),
+    tf.keras.layers.Dense(10, activation="softmax")
 ])
 
-# 5. Compilation du modèle
-model.compile(
-    optimizer='adam',
-    loss='sparse_categorical_crossentropy',
-    metrics=['accuracy']
-)
+model.compile(optimizer="adam",
+              loss="sparse_categorical_crossentropy",
+              metrics=["accuracy"])
 
-# 6. Entraînement du modèle
-history = model.fit(
-    x_train,
-    y_train,
-    epochs=5,
-    batch_size=128,
-    validation_split=0.1
-)
+# Lancement de la session de suivi MLflow
+with mlflow.start_run():
+    # Enregistrement des paramètres
+    mlflow.log_param("epochs", EPOCHS)
+    mlflow.log_param("batch_size", BATCH_SIZE)
+    mlflow.log_param("dropout_rate", DROPOUT_RATE)
 
-# 7. Évaluation sur le jeu de test
-test_loss, test_acc = model.evaluate(x_test, y_test)
-print(f"Précision sur les données de test : {test_acc:.4f}")
+    # Entraînement
+    history = model.fit(x_train, y_train,
+                        epochs=EPOCHS,
+                        batch_size=BATCH_SIZE,
+                        validation_split=0.1,
+                        verbose=2)
 
-# 8. Sauvegarde du modèle
-model.save("mnist_model.h5")
-print("Modèle sauvegardé sous mnist_model.h5")
+    # Évaluation
+    test_loss, test_acc = model.evaluate(x_test, y_test, verbose=0)
+
+    # Enregistrement des métriques
+    mlflow.log_metric("test_accuracy", float(test_acc))
+    mlflow.log_metric("test_loss", float(test_loss))
+
+    # Éviter le warning sur la signature : inférer et logger la signature
+    sample_input = x_test[:10]
+    sample_output = model.predict(sample_input)
+    signature = infer_signature(sample_input, sample_output)
+
+    # Enregistrement du modèle (avec signature)
+    mlflow.keras.log_model(model, "mnist-model", signature=signature)
+
+    print(f"Test accuracy: {test_acc:.4f}")

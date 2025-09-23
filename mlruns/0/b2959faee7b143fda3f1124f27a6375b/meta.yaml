@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/donfa/OneDrive/Desktop/TRAVAIL%20ML/mlruns/0/b2959faee7b143fda3f1124f27a6375b/artifacts
+end_time: 1758662498587
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b2959faee7b143fda3f1124f27a6375b
+run_name: gifted-foal-994
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1758662473286
+status: 3
+tags: []
+user_id: donfa

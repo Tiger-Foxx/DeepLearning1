@@ -1,0 +1,14 @@
+artifact_uri: file:///C:/Users/donfa/OneDrive/Desktop/TRAVAIL%20ML/mlruns/0/5421db488d544affbe89948a70fe745a/artifacts
+end_time: 1758662274646
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5421db488d544affbe89948a70fe745a
+run_name: popular-colt-843
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1758662250155
+status: 3
+tags: []
+user_id: donfa

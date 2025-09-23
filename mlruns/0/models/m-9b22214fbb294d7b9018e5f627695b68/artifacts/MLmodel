@@ -1,0 +1,20 @@
+artifact_path: file:///C:/Users/donfa/OneDrive/Desktop/TRAVAIL%20ML/mlruns/0/models/m-9b22214fbb294d7b9018e5f627695b68/artifacts
+flavors:
+  keras:
+    data: data
+    keras_backend: tensorflow
+    keras_version: 3.7.0
+    save_exported_model: false
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.keras
+    python_version: 3.12.4
+mlflow_version: 3.4.0
+model_id: m-9b22214fbb294d7b9018e5f627695b68
+model_size_bytes: 1246480
+model_uuid: m-9b22214fbb294d7b9018e5f627695b68
+prompts: null
+run_id: 5421db488d544affbe89948a70fe745a
+utc_time_created: '2025-09-23 21:17:40.027248'

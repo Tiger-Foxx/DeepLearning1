@@ -1,0 +1,10 @@
+artifact_location: file:///C:/Users/donfa/OneDrive/Desktop/TRAVAIL%20ML/mlruns/0/models/m-7e92d3933cb6428e80a06231a69719e4/artifacts
+creation_timestamp: 1758662483176
+experiment_id: '0'
+last_updated_timestamp: 1758662498572
+model_id: m-7e92d3933cb6428e80a06231a69719e4
+model_type: null
+name: mnist-model
+source_run_id: b2959faee7b143fda3f1124f27a6375b
+status: 2
+status_message: null
