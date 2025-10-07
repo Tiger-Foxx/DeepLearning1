@@ -7,15 +7,13 @@ ENV PORT=5000
 
 WORKDIR /app
 
-# Copier requirements et installer
+# Copier requirements.txt depuis la racine
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier le reste de l'application (app.py + mnist_model.h5 attendu ici)
-COPY . .
+# Copier le contenu de src/ vers /app (app.py, mnist_model.h5, etc.)
+COPY src/ .
 
-# Exposer le port
 EXPOSE 5000
 
-# Commande par défaut : Gunicorn (meilleur pour la prod)
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app", "--workers", "2", "--threads", "4"]
