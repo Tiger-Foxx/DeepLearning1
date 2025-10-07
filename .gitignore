@@ -3,3 +3,6 @@
 __pycache__/
 *.pyc
 /.idea
+*.jolib
+TP2.MD
+TP1.MD

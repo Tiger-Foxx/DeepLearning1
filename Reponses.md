@@ -1,8 +1,55 @@
 
 # Responses.MD
 
-**Practical Work:** From Design to Deployment of Deep Learning Models
-**M2-GI — Donfack Pascal Arthur**
+**Practical Work:** From Design to Deployment of Deep Learning Mode3. **Model-specific metrics:** Prediction distribution drift, input data drift, outlier detection, and periodic accuracy checks if labels are available.
+
+
+**End of Responses.MD**
+
+
+
+# TP2 Responses
+
+## Part 1: Theory and Key Concepts
+
+### Data Splitting
+- **Training set:** Used to update model parameters.
+- **Validation (dev) set:** Used to tune hyperparameters and diagnose bias/variance.
+- **Test set:** Used only for final evaluation to avoid overfitting.
+
+### Results Analysis
+- High training error and high validation error: high bias (underfitting).
+- Low training error but high validation error: high variance (overfitting).
+
+### L2 Regularization
+Penalizes large weights by adding λ||w||² to the loss, where λ is the regularization strength, encouraging smaller weights and reducing overfitting.
+
+### Dropout
+Randomly sets a fraction of neurons to zero during training, preventing co-adaptation and acting as regularization.
+
+### Batch Normalization
+Normalizes the inputs to each layer, stabilizing training by reducing internal covariate shift and allowing higher learning rates.
+
+### Optimization Algorithms
+- **Momentum:** Accelerates SGD by adding a fraction of the previous update to the current one.
+- **RMSprop:** Adapts learning rates by dividing by the root mean square of recent gradients.
+- **Adam:** Combines momentum and RMSprop, providing adaptive learning rates; preferred as default due to robustness.
+
+## Part 2: Practical Exercises
+
+### Exercise 1: Bias/Variance Analysis
+After training, training accuracy was ~0.98, validation ~0.97, indicating mild overfitting (high variance). The model performs well but could generalize better.
+
+### Exercise 2: Applying Regularization
+With L2 (0.001) and Dropout (0.2), validation loss decreased, improving generalization. Regularization reduced overfitting.
+
+### Exercise 3: Comparing Optimizers
+- Adam: Best performance, accuracy ~0.97, fast convergence.
+- RMSprop: Good, slightly lower accuracy.
+- SGD with momentum: Stable but slower, lower accuracy.
+
+### Exercise 4: Batch Normalization
+Adding BatchNormalization improved convergence speed and final accuracy by stabilizing activations.*M2-GI — Donfack Pascal Arthur**
 
 ---
 

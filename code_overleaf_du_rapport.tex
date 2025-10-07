@@ -1,0 +1,151 @@
+\documentclass{article}
+\usepackage{graphicx} % For images
+\usepackage{hyperref} % For clickable links
+\usepackage{amsmath}  % For math symbols
+\usepackage{geometry} % For page formatting
+\usepackage{enumitem} % For customized lists
+\geometry{a4paper, margin=1in}
+
+\title{TP: From Design to Deployment of Deep Learning Models}
+\author{Donfack Pascal Arthur \\ Supervisor: Dr. Louis Fippo Fitime}
+\date{September 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+This report documents the practical work performed in the Deep Learning course (M2-GI) at ENSPY. The purpose of this TP was to provide hands-on experience in developing, tracking, containerizing, and deploying deep learning models. The report focuses on the answers to the theoretical questions posed throughout the exercises and explains the concepts and best practices implemented.
+
+\section{Part 1: Foundations of Deep Learning}
+
+\subsection{Q1: Difference between Batch Gradient Descent and Stochastic Gradient Descent}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Batch Gradient Descent:} Computes gradients using the entire dataset. Stable but slow and memory-intensive.
+    \item \textbf{Stochastic Gradient Descent (SGD):} Computes gradients per sample or mini-batch. Faster updates, can escape shallow local minima, and scales to large datasets.
+    \item \textbf{Preference in Deep Learning:} Large datasets and complex models make full-batch computation impractical. SGD allows faster convergence and better generalization.
+\end{itemize}
+
+\subsection{Q2: Roles of Layers and Backpropagation}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Input Layer:} Receives raw input data and shapes it for the network.
+    \item \textbf{Hidden Layers:} Extract and transform features via weighted combinations and nonlinear activation functions.
+    \item \textbf{Output Layer:} Produces predictions, often as probabilities for classification.
+    \item \textbf{Backpropagation:} Algorithm for computing gradients of the loss function with respect to all parameters, propagating errors backward to update weights efficiently.
+\end{itemize}
+
+\section{Exercise 1: Keras MNIST}
+
+\subsection{Q1: Dense, Dropout, and Softmax}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Dense layers:} Fully-connected layers that learn weighted combinations of inputs to represent complex functions.
+    \item \textbf{Dropout:} Regularization technique that randomly disables neurons during training to prevent overfitting.
+    \item \textbf{Softmax:} Converts logits to probability distribution over multiple classes; ideal for multi-class classification such as MNIST.
+\end{itemize}
+
+\subsection{Q2: Adam Optimizer vs SGD}
+Adam is an adaptive learning rate optimizer that combines the benefits of Momentum and RMSProp:
+\begin{itemize}[leftmargin=*]
+    \item Adjusts learning rates per parameter using estimates of first and second moments of gradients.
+    \item Offers faster convergence, better stability, and improved handling of sparse gradients.
+    \item Often performs better out-of-the-box than vanilla SGD without extensive tuning.
+\end{itemize}
+
+\subsection{Q3: Vectorization and Batch Computation}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Vectorization:} Uses array operations instead of loops, enabling parallel computation on CPUs/GPUs and faster training.
+    \item \textbf{Batching:} Processes multiple samples per update (batch\_size = 128), improving gradient estimation and computational efficiency.
+\end{itemize}
+
+\section{Part 2: Engineering Deep Learning}
+
+\subsection{Exercise 2: Git/GitHub}
+No theoretical questions; the exercise focused on version control, repository setup, and collaboration.
+
+\subsection{Exercise 3: MLflow}
+\textbf{Purpose of MLflow tracking:}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Parameters:} Record hyperparameters to ensure reproducibility.
+    \item \textbf{Metrics:} Track performance metrics (e.g., accuracy, loss) across runs.
+    \item \textbf{Artifacts:} Store models, outputs, and other relevant files for future use or deployment.
+    \item \textbf{Benefits:} Enables experiment comparison, model selection, reproducibility, and facilitates deployment readiness.
+\end{itemize}
+
+\subsection{Exercise 4: Containerization and API}
+No explicit questions; focused on practical setup of Docker and Flask API for serving the trained model.
+
+\subsection{Exercise 5: CI/CD and Monitoring}
+
+\subsubsection{Q1: CI/CD Automation for Docker Deployment}
+\begin{itemize}[leftmargin=*]
+    \item Trigger pipeline automatically on code push.
+    \item Build Docker image and run automated tests.
+    \item Push Docker image to a registry (DockerHub, Google Container Registry, AWS ECR).
+    \item Deploy image automatically to cloud services (e.g., Google Cloud Run, AWS ECS).
+    \item Optionally, run smoke tests and roll back on failure.
+\end{itemize}
+
+\subsubsection{Q2: Key Monitoring Indicators in Production}
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Performance metrics:} Request latency (p50, p95, p99), throughput, CPU/RAM/GPU usage.
+    \item \textbf{Reliability metrics:} Error rates (4xx, 5xx), crash/restart counts, timeouts.
+    \item \textbf{Model-specific metrics:} Prediction distribution drift, input data drift, outlier detection, and periodic accuracy checks if labels are available.
+\end{enumerate}
+
+\section{Conclusion}
+This TP provided a full practical workflow for deep learning model development. Key skills acquired include model training with Keras, experiment tracking with MLflow, containerization using Docker, and API deployment with Flask. Best practices in CI/CD, monitoring, and production readiness were also applied.
+
+\section{TP2: Improving Deep Neural Networks}
+
+\subsection{Part 1: Theory and Key Concepts}
+
+\subsubsection{Data Splitting}
+The dataset is divided into three sets: training (used to update model parameters), validation (dev, used to tune hyperparameters and diagnose bias/variance), and test (used only for final evaluation to avoid overfitting).
+
+\subsubsection{Results Analysis}
+By comparing training error and validation error:
+- High training error and high validation error: high bias (underfitting).
+- Low training error but high validation error: high variance (overfitting).
+
+\subsubsection{L2 Regularization}
+Penalizes large weights by adding a term proportional to the square of weights to the loss function, encouraging smaller weights and reducing overfitting.
+
+\subsubsection{Dropout}
+Randomly disables neurons during training, forcing the network to learn redundant representations and acting as regularization.
+
+\subsubsection{Batch Normalization}
+Normalizes activations of hidden layers, stabilizing training and allowing higher learning rates.
+
+\subsubsection{Optimization Algorithms}
+- Momentum: Accumulates past gradients to accelerate convergence.
+- RMSprop: Adapts learning rates based on recent gradient magnitudes.
+- Adam: Combines momentum and RMSprop, often the default due to robustness.
+
+\subsection{Part 2: Practical Exercises}
+
+\subsubsection{Exercise 1: Bias/Variance Analysis}
+After training with validation set, the model showed low training loss but slightly higher validation loss, indicating mild overfitting (high variance). Regularization was applied to address this.
+
+\subsubsection{Exercise 2: Applying Regularization}
+Added L2 regularization (0.001) and Dropout (0.2). This improved validation accuracy by reducing overfitting, as seen in lower validation loss compared to training loss.
+
+\subsubsection{Exercise 3: Comparing Optimizers}
+Experiments with MLflow showed:
+- Adam: Fastest convergence, highest accuracy (~0.97).
+- RMSprop: Good performance, slightly slower than Adam.
+- SGD with momentum: Slower convergence but stable.
+
+\subsubsection{Exercise 4: Batch Normalization}
+Adding BatchNormalization accelerated training and improved stability, leading to better final accuracy.
+
+\section*{Annexes}
+
+For full access to the project code and the collaborative work:
+
+\begin{itemize}
+    \item \textbf{Overleaf Project:} \href{https://www.overleaf.com/project/68d314812f29a01e37f8c3ab}{https://www.overleaf.com/project/68d314812f29a01e37f8c3ab}
+    \item \textbf{GitHub Repository:} \href{https://github.com/Tiger-Foxx/DeepLearning1}{https://github.com/Tiger-Foxx/DeepLearning1}
+\end{itemize}
+
+
+\end{document}
